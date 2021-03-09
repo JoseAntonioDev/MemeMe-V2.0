@@ -10,9 +10,6 @@ import UIKit
 
 class CollectionViewController: UICollectionViewController {
     
-    // MARK: Properties
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     // MARK: Lifecycle
@@ -36,13 +33,14 @@ class CollectionViewController: UICollectionViewController {
     // MARK: Collection Methods
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // The number of items is the number of memes
-        return appDelegate.memes.count
+        return SharingMeme.sharedInstance.memes.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create meme for row object and create cell object with custom properties
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
-        let actualMeme = self.appDelegate.memes[indexPath.row]
+        let cellID = "collectionCell"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! CollectionViewCell
+        let actualMeme = SharingMeme.sharedInstance.memes[indexPath.row]
         
         // Set cell properties
         cell.cellImage.image = actualMeme.memedImage
@@ -56,7 +54,7 @@ class CollectionViewController: UICollectionViewController {
         let detailController = storyboard.instantiateViewController(withIdentifier: "MemeDetailViewController") as! MemeDetailViewController
         
         // Populate view controller with data from the selected item
-        detailController.meme = self.appDelegate.memes[indexPath.row]
+        detailController.meme = SharingMeme.sharedInstance.memes[indexPath.row]
         detailController.meme.counter = indexPath.row
         
         // Present the view controller using navigation

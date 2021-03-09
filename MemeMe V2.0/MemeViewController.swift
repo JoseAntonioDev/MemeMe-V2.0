@@ -28,18 +28,7 @@ class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     // Create the delegate object
     let textFieldDelegate = TextFieldDelegate()
     
-    // Create de meme's struct
-    struct Meme {
-        var topText: String!
-        var bottomText: String!
-        var originalImage: UIImage!
-        var memedImage: UIImage
-        
-        // This counter is to overwrite a meme when is edited
-        var counter: Int!
-    }
-    
-    var meme: Meme?
+    var meme: SharingMeme.Meme?
     let topText = "TOP"
     let bottomText = "BOTTOM"
     
@@ -47,13 +36,9 @@ class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Set the delegate
-        topField.delegate = textFieldDelegate
-        bottomField.delegate = textFieldDelegate
-        
-        // Set the text attributes
-        topField.defaultTextAttributes = textFieldDelegate.memeTextAttributes
-        bottomField.defaultTextAttributes = textFieldDelegate.memeTextAttributes
+        // Set delegates and attributes
+        initTextField(topField)
+        initTextField(bottomField)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,23 +92,31 @@ class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     }
     
     @IBAction func pickAnImageFromAlbum(_ sender: Any) {
-        
         let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
+        showImagePicker(source: imagePicker, type: "album")
     }
 
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
-        
         let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        imagePicker.sourceType = .camera
-        present(imagePicker, animated: true, completion: nil)
+        showImagePicker(source: imagePicker, type: "camera")
     }
 
+    func showImagePicker(source: UIImagePickerController, type: String) {
+        source.delegate = self
+        // Check which source we need
+        switch type {
+        case "camera":
+            source.sourceType = .camera
+        case "album":
+            source.sourceType = .photoLibrary
+        default:
+            print("An error has been occurred")
+        }
+        // Allows editing to crop landscape images
+        source.allowsEditing = true
+        present(source, animated: true, completion: nil)
+    }
+    
     // Set image picker controller to assign the selected image to the view
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
@@ -200,17 +193,22 @@ class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    func initTextField(_ textField: UITextField) {
+        textField.delegate = textFieldDelegate
+        textField.defaultTextAttributes = textFieldDelegate.memeTextAttributes
+    }
+    
     // MARK: Save the meme
     
     func save(memedImage: UIImage) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
         if meme == nil {
             // Create the meme
-            let meme = Meme(topText: topField.text!, bottomText: bottomField.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
+            let meme = SharingMeme.Meme(topText: topField.text!, bottomText: bottomField.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
             self.meme = meme
         
             // Add the new meme to the memes array
-            appDelegate.memes.append(meme)
+            SharingMeme.sharedInstance.memes.append(meme)
         } else {
             // Update and save the edited meme
             meme?.bottomText = bottomField.text
@@ -218,8 +216,8 @@ class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
             meme?.memedImage = memedImage
             meme?.originalImage = imagePickerView.image
             
-            appDelegate.memes.remove(at: meme!.counter!)
-            appDelegate.memes.append(meme!)
+            SharingMeme.sharedInstance.memes.remove(at: meme!.counter!)
+            SharingMeme.sharedInstance.memes.append(meme!)
         }
     }
     

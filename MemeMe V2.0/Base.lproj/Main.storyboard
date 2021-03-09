@@ -264,15 +264,15 @@
                                 </items>
                             </toolbar>
                             <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="dkM-eM-usC">
-                                <rect key="frame" x="177.5" y="93" width="59.5" height="720"/>
+                                <rect key="frame" x="0.0" y="93" width="414" height="720"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="TOP" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tjJ-wo-Pz7">
-                                        <rect key="frame" x="0.0" y="0.0" width="59.5" height="360"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="360"/>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="BOTTOM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Hp-Pp-llb">
-                                        <rect key="frame" x="0.0" y="360" width="59.5" height="360"/>
+                                        <rect key="frame" x="0.0" y="360" width="414" height="360"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                                     </textField>
@@ -295,6 +295,8 @@
                             <constraint firstItem="6Hp-Pp-llb" firstAttribute="bottom" secondItem="Dit-Qh-T6U" secondAttribute="bottom" id="FOt-9u-J77"/>
                             <constraint firstItem="dAs-Uu-Vm4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="KJ7-W1-FdC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Dit-Qh-T6U" secondAttribute="trailing" id="LRa-6H-Jmq"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dkM-eM-usC" secondAttribute="trailing" id="LZB-yJ-MbR"/>
+                            <constraint firstItem="dkM-eM-usC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MX6-DK-Hpq"/>
                             <constraint firstItem="q0C-Lo-6RF" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="PiV-Iu-qpq"/>
                             <constraint firstItem="Dit-Qh-T6U" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="T0l-Cd-y2X"/>
                             <constraint firstItem="yOV-sJ-h9o" firstAttribute="centerX" secondItem="q0C-Lo-6RF" secondAttribute="centerX" id="Twc-PJ-l4V"/>

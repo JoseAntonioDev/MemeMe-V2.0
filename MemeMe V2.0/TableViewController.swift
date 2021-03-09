@@ -9,10 +9,7 @@ import Foundation
 import UIKit
 
 class TableViewController: UITableViewController {
-    
-    // MARK: Properties
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
+        
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +27,12 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         // The number of rows is the number of memes
-        return appDelegate.memes.count
+        return SharingMeme.sharedInstance.memes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create meme for row and cell objects
-        let actualMeme = self.appDelegate.memes[indexPath.row]
+        let actualMeme = SharingMeme.sharedInstance.memes[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableCustomCell", for: indexPath) as! TableCustomCell
         
         // Set cell properties
@@ -51,7 +48,7 @@ class TableViewController: UITableViewController {
         let detailController = storyboard.instantiateViewController(withIdentifier: "MemeDetailViewController") as! MemeDetailViewController
         
         //Populate view controller with data from the selected item
-        detailController.meme = self.appDelegate.memes[indexPath.row]
+        detailController.meme = SharingMeme.sharedInstance.memes[indexPath.row]
         detailController.meme.counter = indexPath.row
         
         // Present the view controller using navigation
@@ -67,7 +64,7 @@ class TableViewController: UITableViewController {
         // Allow the user to delete items from the table
         tableView.reloadData()
         if editingStyle == .delete {
-            self.appDelegate.memes.remove(at: indexPath.row)
+            SharingMeme.sharedInstance.memes.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

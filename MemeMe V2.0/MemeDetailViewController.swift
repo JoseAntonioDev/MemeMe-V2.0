@@ -13,7 +13,7 @@ class MemeDetailViewController: UIViewController {
     // MARK: Properties
     @IBOutlet var memeImage: UIImageView!
  
-    var meme: MemeViewController.Meme!
+    var meme: SharingMeme.Meme!
     
     // MARK: Lifecycle
     override func viewDidLoad() {
