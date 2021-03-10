@@ -33,17 +33,11 @@ class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     let bottomText = "BOTTOM"
     
     //MARK: Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Set delegates and attributes
-        initTextField(topField)
-        initTextField(bottomField)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        // Set text field delegates, attributes and text
+        initTextField(topField, tittle: topText)
+        initTextField(bottomField, tittle: bottomText)
 
         // Set the initial setup for the app
         initialSetup()
@@ -141,19 +135,13 @@ class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         tabBarController!.tabBar.isHidden = true
         if self.meme == nil {
             startView.isHidden = false
-            topField.text = topText
-            topField.textAlignment = .center
-            bottomField.text = bottomText
-            bottomField.textAlignment = .center
             imagePickerView.image = nil
             shareButton.isEnabled = (imagePickerView.image != nil)
         } else {
             startView.isHidden = true
             imagePickerView.image = meme?.originalImage
             topField.text = meme?.topText
-            topField.textAlignment = .center
             bottomField.text = meme?.bottomText
-            bottomField.textAlignment = .center
             shareButton.isEnabled = (imagePickerView.image != nil)
         }
     }
@@ -193,9 +181,11 @@ class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func initTextField(_ textField: UITextField) {
+    func initTextField(_ textField: UITextField, tittle: String) {
         textField.delegate = textFieldDelegate
         textField.defaultTextAttributes = textFieldDelegate.memeTextAttributes
+        textField.text = tittle
+        textField.textAlignment = .center
     }
     
     // MARK: Save the meme
